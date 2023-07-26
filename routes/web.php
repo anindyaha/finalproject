@@ -18,20 +18,19 @@ use App\Http\Controllers\BookController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 })->middleware('auth');
 
 Route::get('login', [AuthController::class, 'login'])->name('login');
-Route::post('login', [AuthController::class, 'authenticating']);
-Route::get('register', [AuthController::class, 'register']);
-Route::post('register', [AuthController::class, 'registerProcess']);
+Route::post('login', [AuthController::class, 'authenticating'])->name('Login');
+Route::get('registeruser', [AuthController::class, 'registerUser'])->name('RegisterUser');
+Route::get('registeradmin', [AuthController::class, 'registerAdmin'])->name('RegisterAdmin');
+Route::post('registerClient', [AuthController::class, 'registerProcessClient'])->name('DaftarClient');
+Route::post('registerAdmin', [AuthController::class, 'registerProcessAdmin'])->name('DaftarAdmin');
 Route::get('logout', [AuthController::class, 'logout']);
 
-Route::get('dashboard', [DashboardController::class, 'index'])->middleware('auth', 'admin');
-Route::get('home', [HomeController::class, 'home'])->middleware('auth', 'peminjam');
+Route::get('dashboard', [DashboardController::class, 'index'])->name('Dashboard');
+Route::get('home', [HomeController::class, 'home'])->name('Home')->middleware('auth');
 Route::get('books', [BookController::class, 'index']);
 
 
-Route::get('/rama', function () {
-    return view('welcome');
-})->middleware('auth');
