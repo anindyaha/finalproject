@@ -14,9 +14,14 @@ class AuthController extends Controller
         return view('login');
     }
 
-    public function register()
+    public function registerUser()
     {
         return view('register');
+    }
+
+    public function registerAdmin()
+    {
+        return view('registeradmin');
     }
 
     public function authenticating(Request $request)
@@ -29,22 +34,22 @@ class AuthController extends Controller
         //cek login valid
         if (Auth::attempt($credentials)) {
 
-            //$request->session()->regenerate();
-            if(Auth::user()->role_id == 1){
+            $request->session()->regenerate();
+            if(Auth::user()->role == 'Admin'){
                 return redirect('dashboard');
             }
 
-            if(Auth::user()->role_id == 2){
+            if(Auth::user()->role == 'User'){
                 return redirect('home');
             }
 
+            // return redirect()->route('Home');
         }
         Session::flash('status', 'failed');
         Session::flash('message', 'login invalid');
-        return redirect('/login');
     }
 
-    public function registerProcess(Request $request)
+    public function registerProcessClient(Request $request)
     {
         $validated = $request-> validate([
             'username' => 'required|unique:users|max:255',
@@ -53,7 +58,35 @@ class AuthController extends Controller
             'address' => 'required|max:255',
         ]);
 
-        $user = User::create($request->all());
+        $user = New User;
+        $user->username = $request->username;
+        $user->password = $request->password;
+        $user->phone = $request->phone;
+        $user->address = $request->address;
+        $user->role = 'User';
+        $user->save();
+
+        Session::flash('status', 'success');
+        Session::flash('message', 'register berhasil');
+        return redirect('register');
+    }
+
+    public function registerProcessAdmin(Request $request)
+    {
+        $validated = $request-> validate([
+            'username' => 'required|unique:users|max:255',
+            'password' => 'required|max:255',
+            'phone' => 'max:255',
+            'address' => 'required|max:255',
+        ]);
+
+        $user = New User;
+        $user->username = $request->username;
+        $user->password = $request->password;
+        $user->phone = $request->phone;
+        $user->address = $request->address;
+        $user->role = 'Admin';
+        $user->save();
 
         Session::flash('status', 'success');
         Session::flash('message', 'register berhasil');
