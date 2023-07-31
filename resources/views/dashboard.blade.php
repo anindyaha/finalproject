@@ -4,6 +4,7 @@
 
 @section('content')
 
+<<<<<<< HEAD
 <div class="pagetitle">
       <h1>Dashboard</h1>
       <nav>
@@ -106,4 +107,6 @@
       </div>
     </section>
 
+=======
+>>>>>>> 8677526cd426ffce45cd3ac5b0174d4914a20555
 @endsection

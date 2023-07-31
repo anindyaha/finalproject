@@ -6,12 +6,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+<<<<<<< HEAD
 use Cviebrock\EloquentSluggable\Sluggable;
+=======
+>>>>>>> 8677526cd426ffce45cd3ac5b0174d4914a20555
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+<<<<<<< HEAD
     use HasApiTokens, HasFactory, Notifiable, sluggable;
+=======
+    use HasApiTokens, HasFactory, Notifiable;
+>>>>>>> 8677526cd426ffce45cd3ac5b0174d4914a20555
 
     /**
      * The attributes that are mass assignable.
@@ -20,6 +27,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'username',
+<<<<<<< HEAD
         'slug',
         'password',
         'phone',
@@ -29,6 +37,13 @@ class User extends Authenticatable
 
     public $timestamps = false;
 
+=======
+        'password',
+        'phone',
+        'address',
+    ];
+
+>>>>>>> 8677526cd426ffce45cd3ac5b0174d4914a20555
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -49,6 +64,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+<<<<<<< HEAD
     // protected $attributes = [
     //     'role_id' => 2
     // ];
@@ -61,4 +77,9 @@ class User extends Authenticatable
             ];
     }
     
+=======
+    protected $attributes = [
+        'role_id' => 2
+    ];
+>>>>>>> 8677526cd426ffce45cd3ac5b0174d4914a20555
 }

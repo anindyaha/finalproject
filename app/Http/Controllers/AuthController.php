@@ -51,10 +51,15 @@ class AuthController extends Controller
             'password' => 'required|max:255',
             'phone' => 'max:255',
             'address' => 'required|max:255',
+<<<<<<< HEAD
             'role_id' => 'required'
         ]);
 
         // $validated['role_id']='2';
+=======
+        ]);
+
+>>>>>>> 8677526cd426ffce45cd3ac5b0174d4914a20555
         $user = User::create($request->all());
 
         Session::flash('status', 'success');

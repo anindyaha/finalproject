@@ -21,7 +21,10 @@ class UserSeeder extends Seeder
 
         User::insert([
             'username' => 'Joni',
+<<<<<<< HEAD
             'slug' => 'Joni',
+=======
+>>>>>>> 8677526cd426ffce45cd3ac5b0174d4914a20555
             'password' => Hash::make('password'),
             'phone' => 25,
             'address' => 'Jl. fhsgfh',

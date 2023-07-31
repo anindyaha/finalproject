@@ -4,7 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "content-hash": "04d6738f8703a47b43c39fe325877a2d",
+=======
+    "content-hash": "aa322c53454393ed775cfe4807d54a50",
+>>>>>>> 8677526cd426ffce45cd3ac5b0174d4914a20555
     "packages": [
         {
             "name": "brick/math",
@@ -62,6 +66,7 @@
             "time": "2023-01-15T23:15:59+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "cocur/slugify",
             "version": "v4.3.0",
             "source": {
@@ -208,6 +213,8 @@
             "time": "2023-02-16T23:01:35+00:00"
         },
         {
+=======
+>>>>>>> 8677526cd426ffce45cd3ac5b0174d4914a20555
             "name": "dflydev/dot-access-data",
             "version": "v3.0.2",
             "source": {

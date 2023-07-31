@@ -4,11 +4,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
+<<<<<<< HEAD
 use App\Http\Controllers\KatalogController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MobilController;
 use App\Http\Controllers\RentalController;
+=======
+use App\Http\Controllers\BookController;
+>>>>>>> 8677526cd426ffce45cd3ac5b0174d4914a20555
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +37,7 @@ Route::get('logout', [AuthController::class, 'logout']);
 
 Route::get('dashboard', [DashboardController::class, 'index'])->middleware('auth', 'admin');
 Route::get('home', [HomeController::class, 'home'])->middleware('auth', 'peminjam');
+<<<<<<< HEAD
 
 Route::get('katalog', [KatalogController::class, 'index']);
 
@@ -58,3 +63,11 @@ Route::post('mobil-edit/{slug}', [MobilController::class, 'update']);
 Route::get('mobil-delete/{slug}', [MobilController::class, 'delete']);
 
 Route::get('datarental', [RentalController::class, 'index']);
+=======
+Route::get('books', [BookController::class, 'index']);
+
+
+Route::get('/rama', function () {
+    return view('welcome');
+})->middleware('auth');
+>>>>>>> 8677526cd426ffce45cd3ac5b0174d4914a20555
