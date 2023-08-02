@@ -1,6 +1,7 @@
 @extends('layouts.layoutadmin')
 
 @section('title', 'Dashboard')
+
 @section('content')
 <div class="pagetitle">
 <h1>Data Mobil</h1>
@@ -26,6 +27,7 @@
             <select name="category_date_select" id="category_date" onchange="category()" class="form-select">
               <option value="rent_date">Mobil Pinjam</option>
               <option value="return_date">Mobil Kembali</option>
+              
               <option value="return_user_date">Mobil Kembali dan Pengguna</option>
             </select>
            </div>
@@ -65,9 +67,14 @@
     </div>
 @endif
 </div>
-<p id="coba"></p>
+<div class="date-filter d-flex flex-col">
+    
+    <p><strong>Mulai</strong> : {{ date('l d-M-Y',strtotime($from)) }}</p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<p><strong>Sampai</strong> : {{ date('l d-M-Y',strtotime($to)) }}</p>
+</div>
+@if (request()->get('category_date_select') == 'return_user_date')
+  <strong>Nama Pengguna</strong> : <span>{{ $userrental->user->username }}</span>
+@endif
 <div class="content">
-
   <table class="table table-bordered mt-3">
     <thead>
       <tr>
@@ -98,15 +105,20 @@
           <td><img src="{{ asset('storage/'.$item->SIM) }}" alt="" width="120px" height="60px"></td>
           <td>{{$item->mobil->nama_mobil}}</td>
           <td>
-              <a href="rent-edit/{{ $item->slug }}"><i class='bi bi-pencil'></i></a> |
-              
-                <a href="rent-status/{{ $item->mobil->slug }}" class="delete-confirm"><i class='bi bi-trash'></i></a>
-
+              <a href="rent-edit/{{$item->slug}}"><i class='bi bi-pencil'></i></a>|
+              <a href="mobil-delete/{{$item->slug}}"><i class='bi bi-trash'></i></a>
           </td>
   </tr>
   @endforeach
     </tbody>
   </table>
+  <form action="cetak-rental" method="get" target="_blank">
+    <input type="hidden" name="category_date_select_cetak" value="{{ request()->get('category_date_select') }}">
+    <input type="hidden" name="return_user_date_cetak" value="{{ request()->get('return_user_date') }}">
+    <input type="hidden" name="from_cetak" value="{{ request()->get('from') }}">
+    <input type="hidden" name="to_cetak" value="{{ request()->get('to') }}">
+    <button type="submit" class="btn btn-primary">Cetak</button>
+  </form>
 </div>
 <script>
   var fromDate = document.getElementById("from-date");
@@ -116,7 +128,12 @@
   {
     var categoryDate = document.getElementById("category_date").value; 
     var userDisplay = document.getElementsByClassName("user")[0];
-    if(categoryDate == 'return_user_date'){
+    if(categoryDate == "created_at"){
+      fromDate.type = "datetime-local";
+      toDate.type = "datetime-local";
+      userDisplay.classList.add("none");
+    }
+    else if(categoryDate == 'return_user_date'){
       fromDate.type = "date";
       toDate.type = "date";
       userDisplay.classList.remove("none");

@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Mobil;
 use App\Models\Rent_log;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
+//use PDF;
 use Carbon\Carbon;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
@@ -14,7 +17,7 @@ use Symfony\Component\Console\Input\Input;
 class RentalController extends Controller
 {
     public function index()
-    {
+    {   
         $datarental = Rent_log::with('user')->with('mobil')->orderBy('created_at','desc')->get();
         $users = User::where('role_id',2)->get();
         return view('datarental',compact('datarental','users'));
@@ -36,11 +39,11 @@ class RentalController extends Controller
         $mobil = $request->input('mobil_id');
         $user = $request->input('user_id');
         $ktp = $request->file('KTP')->store('ktp');
-        $sim = $request->file('SIM')->store('sim');
+        $sim = $request->file('SIM')->store('sim'); 
         $rentdate = $request->input('rent_date');
 
-        // $validated['KTP'] = $request->file('KTP')->store('ktp');
-        // $validated['SIM'] = $request->file('SIM')->store('sim');
+        // $validated['KTP'] = $request->file('KTP')->store('ktp'); 
+        // $validated['SIM'] = $request->file('SIM')->store('sim'); 
         // $validated = $request->validate([
         //     'user_id'=>'required',
         //     'mobil_id'=>'required',
@@ -70,15 +73,15 @@ class RentalController extends Controller
             'KTP'=>'required|image',
             'SIM'=>'required|image',
         ]);
-        $validated['KTP'] = $request->file('KTP')->store('ktp');
-        $validated['SIM'] = $request->file('SIM')->store('sim');
+        $validated['KTP'] = $request->file('KTP')->store('ktp'); 
+        $validated['SIM'] = $request->file('SIM')->store('sim'); 
         Rent_log::create($validated);
         return redirect('/katalog');
     }
     public function edit($slug)
     {
-            $slugcrypt = Crypt::decrypt($slug);
-            $rent = Rent_log::with('user')->with('mobil')->where('slug',$slugcrypt)->first();
+            
+            $rent = Rent_log::with('user')->with('mobil')->where('slug',$slug)->first();
             return view('rental-edit',["rent"=>$rent]);
     }
     public function update(Request $request,$slug,$id)
@@ -116,18 +119,54 @@ class RentalController extends Controller
                 $rentuserdate = $request->return_user_date;
                 $users = User::where('role_id',2)->get();
                 $datarental = Rent_log::with('user')->with('mobil')->where('user_id',$rentuserdate)->whereBetween('return_date',[$from,$to])->orderBy('created_at','desc')->get();
-
-                return view('rent-filter',compact('datarental','users','from','to'));
+                $userrental = Rent_log::with('user')->with('mobil')->where('user_id',$rentuserdate)->whereBetween('return_date',[$from,$to])->orderBy('created_at','desc')->first();
+                return view('rent-filter',compact('datarental','users','from','to','userrental'));
                 break;
             }
-
+                        
             return view('rent-filter',['datarental'=>$datarental,'users'=>$users,'from'=>$from,'to'=>$to]);
-        }
+        } 
         public function acc($slug)
         {
            Mobil::where('slug',$slug)->update([
             'status'=>'Tersedia',
            ]);
            return redirect('datarental')->with('status','Data Rental Berhasil Dikembalikan');
+        }
+        public function cetakrental(Request $request)
+        {   $categorydate = $request->category_date_select_cetak;
+            
+            $from = $request->from_cetak;
+            $to = $request->to_cetak;
+            
+            switch ($categorydate) {
+                case 'return_date':
+                    $datarental = Rent_log::with('user')->with('mobil')->whereBetween('return_date',[$from,$to])->orderBy('created_at','desc')->get();
+                    $users = User::where('role_id',2)->get();
+                    $title = 'Mobil Kembali';
+                    $pdf = Pdf::loadView('cetak-rental',compact('datarental','users','from','to','title'));
+                    return $pdf->stream('cetak-return-date');
+                    break;
+                case 'rent_date':
+                    $datarental = Rent_log::with('user')->with('mobil')->whereBetween('rent_date',[$from,$to])->orderBy('created_at','desc')->get();
+                    $users = User::where('role_id',2)->get();
+                    $title = 'Mobil Pinjam';
+                    $pdf = Pdf::loadView('cetak-rental',compact('datarental','users','from','to','title'));
+                    return $pdf->stream('cetak-rent-date');
+                    
+                    break;
+                case 'return_user_date':
+                    $rentuserdate = $request->return_user_date_cetak;
+                    $users = User::where('role_id',2)->get();
+                    $datarental = Rent_log::with('user')->with('mobil')->where('user_id',$rentuserdate)->whereBetween('return_date',[$from,$to])->orderBy('created_at','desc')->get();
+                    $userrental = Rent_log::with('user')->with('mobil')->where('user_id',$rentuserdate)->whereBetween('return_date',[$from,$to])->orderBy('created_at','desc')->first();
+                    $title = 'Mobil Kembali dan Pengguna';
+                    $pdf = Pdf::loadView('cetak-rental',compact('datarental','users','from','to','title','userrental'))->setPaper('a4','landscape');
+                    return $pdf->stream('cetak-rental-user');
+                    break;
+                }
+
+
+
         }
 }

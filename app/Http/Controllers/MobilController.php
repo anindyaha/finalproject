@@ -24,6 +24,10 @@ class MobilController extends Controller
     {
         $validated = $request->validate([
             'nopol' => 'required|unique:mobils|max:255',
+            'nama_mobil' => 'required',
+            'images'=>'required',
+            'harga'=>'required',
+            'categories'=>'required'
         ]);
 
         $newName = '';

@@ -37,8 +37,14 @@
             </div>
             <div class="mb-3">
                 <label for="images" class="form-label">Gambar Mobil</label>
-                <input type="file" name="images" id="images" class="form-control" placeholder="Nama Mobil"
-                value="{{$mobil->cover}}">
+                <input type="file" name="images" id="img" class="form-control" placeholder="Nama Mobil"
+                value="{{$mobil->cover}}" onchange="previewImage()">
+                @if ($mobil->cover)
+                <img class="img-preview img-fluid mb-3 col-sm-7" src="{{ asset('storage/cover/'.$mobil->cover) }}">
+                @else
+                <img class="img-preview img-fluid mb-3 col-sm-7">
+                @endif
+               
             </div>
 
             <div class="mb-3">
@@ -74,5 +80,20 @@
 <script>
 $(document).ready(function() {
     $('.select-multiple').select2();
-});</script>
+});
+function previewImage()
+{
+    const img = document.querySelector("#img");
+      const imgPreview = document.querySelector(".img-preview")
+
+      imgPreview.style.display = 'block';
+      
+      const reader = new FileReader();
+      reader.readAsDataURL(img.files[0]);
+      reader.onload = function(event) {
+
+         imgPreview.src = event.target.result;
+      }
+}
+</script>
 @endsection

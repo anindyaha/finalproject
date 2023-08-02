@@ -66,3 +66,4 @@ Route::get('/date-range-filter',[RentalController::class,'filter'])->name('filte
 Route::get('rent-status/{slug}',[RentalController::class,'acc'])->name('acc-rent');
 Route::post('rent-add-multi',[RentalController::class,'add'])->name('rent-add');
 Route::post('rent-multi-add',[RentalController::class,'multirent']);
+Route::get('cetak-rental',[RentalController::class,'cetakrental'])->name('cetak-rental');

@@ -29,4 +29,8 @@ class Mobil extends Model
     {
         return $this->belongsToMany(Category::class,'mobil_category', 'mobil_id', 'category_id' );
     }
+    public function rentlog()
+    {
+        return $this->hasMany(Rent_log::class);
+    }
 }
