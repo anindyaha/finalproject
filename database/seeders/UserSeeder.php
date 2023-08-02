@@ -3,10 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
 {
@@ -15,17 +13,19 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        Schema::disableForeignKeyConstraints();
-        User::truncate();
-        Schema::enableForeignkeyConstraints();
-
-        User::insert([
-            'username' => 'Joni',
-            'slug' => 'Joni',
-            'password' => Hash::make('password'),
-            'phone' => 25,
-            'address' => 'Jl. fhsgfh',
-            'role_id' => '1'
+        User::create([
+            'username'=>'admin',
+            'password'=>'admin',
+            'phone'=>'012345678',
+            'address'=>'admin',
+            'role_id'=>'1'
+        ]);
+        User::create([
+            'username'=>'customer',
+            'password'=>'customer',
+            'phone'=>'0234567',
+            'address'=>'customer',
+            'role_id'=>'2',
         ]);
     }
 }

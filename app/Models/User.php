@@ -60,5 +60,9 @@ class User extends Authenticatable
             ]
             ];
     }
+    public function rentlog()
+    {
+        return $this->hasMany(Rent_log::class);
+    }
     
 }

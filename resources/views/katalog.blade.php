@@ -16,7 +16,7 @@
         </div>
     </div>
 
-
+    
 <div class="my-5 container active">
     <form action="" method="get">
     <div class ="row">
@@ -32,12 +32,12 @@
         <div class ="col-24 col-sm-5">
             <div class="input-group mb-3">
                 <input type="text" name="nama_mobil" class="form-control" placeholder="Search nama mobil">
-
+                
             </div>
         </div>
         <div class ="col-24 col-sm-2"> <div class="input-group mb-3"><button class="btn btn-primary" type="submit">Search</button></div></div>
     </div>
-
+    
 </form>
     <div class="row katalog">
         @foreach ($katalog as $item)
@@ -51,7 +51,7 @@
                     <h5 class="card-title">{{$item->nama_mobil}}</h5>
                     <p class="card-text">Nopol: {{$item->nopol}}</p>
                     <span class="fw-bold">Harga Sewa : Rp</span><span class="card-price fw-bold currency">{{$item->harga}}</span><span>/ Hari</span>
-                    <p class="card-status text-end fw-bold {{ $item->status == 'Tersedia' ? 'text-success'
+                    <p class="card-status text-end fw-bold {{ $item->status == 'Tersedia' ? 'text-success' 
                         : 'text-danger'}}"> {{$item->status}} </p>
                     <a href="/sewa?mobil={{ $item->slug }}" class="{{ $item->status == 'Tersedia' ? 'btn btn-primary' : 'btn btn-primary disabled' }} center">Sewa Mobil</a>
                     <button type="button" class="btn btn-secondary add-cart">Tambah</button>
@@ -60,19 +60,19 @@
         </div>
         @endforeach
     </div>
-
+    
 </div>
 <div class="listPeminjaman">
     <form action="/rent-add-multi" method="post">
     @csrf
     <div class="cart-rent">
     @foreach ($katalog as $k )
-
-
+                
+                
     @endforeach
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+    </form>                    
         <br>
         <div class="cart">
             <div class="total">0</div>
@@ -81,7 +81,7 @@
     </div>
 <script>
     var numFormat = new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR"});
-
+    
 //Variable
 var openPeminjaman = document.querySelector(".peminjaman");
 var closePeminjaman = document.querySelector(".closePeminjaman");
@@ -116,13 +116,13 @@ peminjamanbtn.addEventListener('click',function(){
 //remove item
 for (var i = 0; i < cartCloseBtn.length; i++) {
     var btnclose = cartCloseBtn[i];
-    btnclose.addEventListener("click",removeItem);
+    btnclose.addEventListener("click",removeItem);  
 }
 var quantity = document.getElementsByClassName("quantity")
 for (let i = 0; i < quantity.length; i++) {
     var element = quantity[i];
-    element.addEventListener("change",quantityChange);
-}
+    element.addEventListener("change",quantityChange);  
+} 
 for (let i = 0; i < addCart.length; i++) {
     var addCartElement = addCart[i];
     addCartElement.addEventListener("click",addCartClicked);
@@ -144,12 +144,12 @@ function removeItem(event){
 var pmjQuantity = document.getElementsByClassName("pmj-quantity")[0];
 for (let i = 0; i < cartContent.length; i++) {
     const element = cartContent[i];
-
+    
 }
 //update total
 function updatetotal(){
     var cartRent = document.getElementsByClassName('cart-rent')[0];
-    var cartContent = document.getElementsByClassName('cart-content');
+    var cartContent = document.getElementsByClassName('cart-content'); 
 //     document.getElementsByClassName("minus-btn")[0].addEventListener("click",()=>{
 // console.log("minus btn from update total")
 //     });
@@ -169,7 +169,7 @@ function updatetotal(){
         // var minusBtn = cartContentItem.getElementsByClassName("minus-btn")[0];
         // minusBtn.addEventListener("click",quantityBtnMinus(i));
         document.getElementsByClassName("total")[0].innerHTML = numFormat.format(total);
-
+        
         //priceElement.nextElementSibling
     }
 }
@@ -233,7 +233,7 @@ function addToCart(title,text,price,mobil,user){
     //     minus = minus - 1
 
     // })
-
+    
 }
 
 //error
